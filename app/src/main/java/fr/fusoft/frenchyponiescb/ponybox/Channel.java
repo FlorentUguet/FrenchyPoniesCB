@@ -27,8 +27,9 @@ public class Channel {
     private ChannelListener mListener = null;
 
     public interface ChannelListener{
-        void onMessageListUpdated();
-        void onUserListUpdated();
+        void onMessageListUpdated(List<Message> messages);
+        void onUserListUpdated(List<User> users);
+        void onMessageAdded(Message m);
     }
 
     public Channel(Ponybox parent, String input){
@@ -74,14 +75,28 @@ public class Channel {
 
     public void setUsers(List<User> users){
         this.users = users;
+
+        if(this.mListener != null)
+            this.mListener.onUserListUpdated(users);
     }
 
     public void addMessage(Message m){
         this.messages.add(m);
+
+        if(this.mListener != null)
+            this.mListener.onMessageAdded(m);
     }
 
     public void addMessages(List<Message> messages){
         this.messages.addAll(messages);
+    }
+
+    public List<User> getUsers(){
+        return this.users;
+    }
+
+    public List<Message> getMessages(){
+        return this.messages;
     }
 
     public String getName()

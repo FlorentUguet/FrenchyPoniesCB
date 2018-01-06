@@ -43,8 +43,14 @@ public class PonyboxService extends Service {
         Log.d(LOG_TAG,"Service Created");
         mNM = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
 
+        createClient();
+
         // Display a notification about us starting.  We put an icon in the status bar.
         showNotification(R.string.ponybox_service_label, R.string.ponybox_started);
+    }
+
+    public void createClient(){
+        this.client = new Ponybox(SERVER_URL);
     }
 
     public void stopService(){

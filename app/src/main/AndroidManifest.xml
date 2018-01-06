@@ -12,7 +12,9 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:name=".PonyboxApplication">
+
         <activity
             android:name=".views.PonyboxActivity"
             android:label="@string/title_activity_chat"
@@ -26,7 +28,8 @@
 
         <service
             android:name=".services.PonyboxService"
-            android:exported="false"/>
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/ponybox_service_label"/>
     </application>
 
 </manifest>

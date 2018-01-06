@@ -7,7 +7,6 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -20,6 +19,7 @@ import java.util.List;
 import fr.fusoft.frenchyponiescb.PonyboxApplication;
 import fr.fusoft.frenchyponiescb.R;
 import fr.fusoft.frenchyponiescb.controllers.LoginTask;
+import fr.fusoft.frenchyponiescb.ponybox.Channel;
 import fr.fusoft.frenchyponiescb.ponybox.Ponybox;
 
 public class PonyboxActivity extends AppCompatActivity {
@@ -35,8 +35,6 @@ public class PonyboxActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
     }
 
     @Override
@@ -71,6 +69,12 @@ public class PonyboxActivity extends AppCompatActivity {
     }
 
     public void initClientListener(){
+
+        if(this.client == null){
+            Log.e(LOG_TAG, "Error : The client is not initialized");
+            return;
+        }
+
         this.client.setListener(new Ponybox.PonyboxListener() {
             @Override
             public void onConnected() {
@@ -79,6 +83,11 @@ public class PonyboxActivity extends AppCompatActivity {
 
             @Override
             public void onDisconnected() {
+
+            }
+
+            @Override
+            public void onChannelList(List<Channel> channels){
 
             }
 
@@ -104,6 +113,7 @@ public class PonyboxActivity extends AppCompatActivity {
         ChannelFragment f = new ChannelFragment();
         f.setChannelName(channel);
         addFragment(f);
+        showFragment(f);
     }
 
     public void showFragment(int i){

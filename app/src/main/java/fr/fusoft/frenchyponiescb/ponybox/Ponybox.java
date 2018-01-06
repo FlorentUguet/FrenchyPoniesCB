@@ -39,6 +39,7 @@ public class Ponybox {
         void onChannelList(List<Channel> channels);
     }
 
+    private List<Channel> channelList;
     private Map<String, Channel> channels = new HashMap<>();
     private String url = "";
     private PonyboxListener mListener = null;
@@ -62,6 +63,13 @@ public class Ponybox {
         }
 
         return m;
+    }
+
+    public Channel getChannel(String channelName){
+        if(this.channels.containsKey(channelName))
+            return this.channels.get(channelName);
+        else
+            return null;
     }
 
     public void setUser(String sid, String token, String id){
@@ -92,6 +100,10 @@ public class Ponybox {
             return false;
         }
         return true;
+    }
+
+    public List<Channel> getChannelList(){
+        return this.channelList;
     }
 
     public void sendMessage(String channel, String message, String to){
@@ -155,11 +167,11 @@ public class Ponybox {
         @Override
         public void call(Object... args) {
             Channel c = new Channel(Ponybox.this, (JSONObject) args[0]);
-            Log.i(LOG_TAG,"Channel " + c.getLabel() + " joined");
-            channels.put(c.getLabel(), c);
+            Log.i(LOG_TAG,"Channel " + c.getName() + " joined");
+            channels.put(c.getName(), c);
 
             if(mListener != null)
-                mListener.onChannelJoined(c.getLabel());
+                mListener.onChannelJoined(c.getName());
         }
     };
 
@@ -168,6 +180,7 @@ public class Ponybox {
         public void call(Object... args) {
             Message m = new Message((JSONObject) args[0]);
             channels.get(m.getChannel()).addMessage(m);
+            Log.i(LOG_TAG, "New message for channel " + m.channel);
         }
     };
 
@@ -203,8 +216,11 @@ public class Ponybox {
     private Emitter.Listener onRefreshNewChannels = new Emitter.Listener() {
         @Override
         public void call(Object... args) {
+            List<Channel> c = loadChannels((JSONObject)args[0]);
+            channelList = c;
+
             if(mListener != null)
-                mListener.onChannelList(loadChannels((JSONObject)args[0]));
+                mListener.onChannelList(c);
         }
     };
 

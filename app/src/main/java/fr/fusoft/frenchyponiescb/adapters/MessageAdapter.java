@@ -13,6 +13,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 import fr.fusoft.frenchyponiescb.R;
@@ -35,6 +37,7 @@ public class MessageAdapter extends ArrayAdapter<Message> implements View.OnClic
         TextView txtUserTo;
         TextView txtUserFrom;
         TextView txtDate;
+        TextView txtA;
         ImageView avatar;
     }
 
@@ -100,6 +103,7 @@ public class MessageAdapter extends ArrayAdapter<Message> implements View.OnClic
             viewHolder.txtUserFrom = (TextView) convertView.findViewById(R.id.textViewUserFrom);
             viewHolder.txtUserTo = (TextView) convertView.findViewById(R.id.textViewUserTo);
             viewHolder.avatar = (ImageView) convertView.findViewById(R.id.imageViewAvatar);
+            viewHolder.txtA = (TextView) convertView.findViewById(R.id.textViewLabelA);
 
             result=convertView;
 
@@ -134,10 +138,12 @@ public class MessageAdapter extends ArrayAdapter<Message> implements View.OnClic
             viewHolder.txtUserTo.setText(message.getRecipient().getUsername());
             viewHolder.txtUserTo.setTextColor(Color.parseColor("#" + message.getRecipient().getColor()));
             viewHolder.txtUserTo.setVisibility(View.VISIBLE);
+            viewHolder.txtA.setVisibility(View.VISIBLE);
 
         }else{
             convertView.setBackgroundColor(mContext.getResources().getColor(R.color.colorMessagePublic));
             viewHolder.txtUserTo.setVisibility(View.GONE);
+            viewHolder.txtA.setVisibility(View.GONE);
         }
 
         // Return the completed view to render on screen
