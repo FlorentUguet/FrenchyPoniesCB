@@ -81,15 +81,15 @@ public class UserListAdapter extends ArrayAdapter<User> implements View.OnClickL
         }
 
         try {
-            user.LoadAvatar(viewHolder.avatar,mContext);
+            user.loadAvatar(viewHolder.avatar,mContext);
         }catch(Exception e){
             Log.e(LOG_TAG,"Exception while loading thumbnail : " + e.getMessage());
         }
 
         lastPosition = position;
 
-        viewHolder.txtName.setText(user.GetUsername());
-        viewHolder.txtName.setTextColor(Color.parseColor("#" + user.GetColor()));
+        viewHolder.txtName.setText(user.getUsername());
+        viewHolder.txtName.setTextColor(Color.parseColor("#" + user.getColor()));
 
         // Return the completed view to render on screen
         return convertView;

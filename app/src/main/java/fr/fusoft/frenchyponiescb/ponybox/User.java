@@ -18,19 +18,17 @@ import fr.fusoft.frenchyponiescb.FPUtils;
  */
 
 public class User implements Comparable {
-    long uid;
+    private long uid;
     private String LOG_TAG = "User";
-    String username;
-    String color;
-    String avatarUrl;
-    String avatar;
-    boolean isActive;
-    HashMap<String, Boolean> rights = new HashMap<>();
+    private String username;
+    private String color;
+    private String avatarUrl;
+    private String avatar;
+    private boolean isActive;
+    private HashMap<String, Boolean> rights = new HashMap<>();
+    private Drawable avatarDrawable;
 
-    Drawable avatarDrawable;
-
-    public User(String input)
-    {
+    public User(String input){
         try {
             loadUser(new JSONObject(input));
         }catch(Exception e){
@@ -38,12 +36,11 @@ public class User implements Comparable {
         }
     }
 
-    public User(JSONObject oJson)
-    {
+    public User(JSONObject oJson){
         loadUser(oJson);
     }
 
-    public void loadUser(JSONObject oJson)    {
+    public void loadUser(JSONObject oJson){
         try {
             uid = oJson.getLong("uid");
             username = oJson.getString("username");
@@ -72,16 +69,16 @@ public class User implements Comparable {
         return username + "/" + uid;
     }
 
-    public HashMap<String,Boolean> GetRights(){return this.rights;}
-    public String GetUsername()
+    public HashMap<String,Boolean> getRights(){return this.rights;}
+    public String getUsername()
     {
         return this.username;
     }
-    public String GetColor()
+    public String getColor()
     {
         return this.color;
     }
-    public String GetAvatarUrl(){return this.avatarUrl;}
+    public String getAvatarUrl(){return this.avatarUrl;}
     public boolean isActive(){return this.isActive;}
 
     public int compareTo(Object o) {
@@ -91,18 +88,18 @@ public class User implements Comparable {
         User e = (User) o;
 
         //Admin
-        if(rights.get("admin") != e.GetRights().get("admin"))
-            return -(rights.get("admin").compareTo(e.GetRights().get("admin")));
+        if(rights.get("admin") != e.getRights().get("admin"))
+            return -(rights.get("admin").compareTo(e.getRights().get("admin")));
 
         //Modo
-        if(rights.get("modo") != e.GetRights().get("modo"))
-            return -(rights.get("modo").compareTo(e.GetRights().get("modo")));
+        if(rights.get("modo") != e.getRights().get("modo"))
+            return -(rights.get("modo").compareTo(e.getRights().get("modo")));
 
         //User
-        return username.compareTo(e.GetUsername());
+        return username.compareTo(e.getUsername());
     }
 
-    public void LoadAvatar(ImageView iv, Context c)
+    public void loadAvatar(ImageView iv, Context c)
     {
         new LoadImageTask(iv, c).execute();
     }

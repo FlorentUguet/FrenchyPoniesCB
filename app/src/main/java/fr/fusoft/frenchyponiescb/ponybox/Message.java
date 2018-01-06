@@ -1,6 +1,5 @@
 package fr.fusoft.frenchyponiescb.ponybox;
 
-import android.os.Parcelable;
 import android.util.Log;
 
 import org.json.JSONObject;
@@ -43,8 +42,7 @@ public class Message implements Serializable, Comparable {
         loadMessage(oJson);
     }
 
-    public void loadMessage(JSONObject oJson)
-    {
+    public void loadMessage(JSONObject oJson){
         try {
             id = oJson.getLong("id");
             format = oJson.getString("format");
@@ -68,33 +66,33 @@ public class Message implements Serializable, Comparable {
         }
     }
 
-    public long GetTimestamp()
+    public long getTimestamp()
     {
         return this.sendDate;
     }
 
-    public String GetSendDate() {
+    public String getSendDate() {
         Date d =  new Date(this.sendDate);
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         return  df.format(d);
     }
 
-    public String GetMessage()
+    public String getMessage()
     {
         return this.format;
     }
 
-    public String GetChannel()
+    public String getChannel()
     {
         return this.channel;
     }
 
-    public User GetSender()
+    public User getSender()
     {
         return this.from;
     }
 
-    public User GetRecipient()
+    public User getRecipient()
     {
         return this.to;
     }
@@ -117,6 +115,6 @@ public class Message implements Serializable, Comparable {
         Message e = (Message) o;
 
         //User
-        return ((Long)sendDate).compareTo(e.GetTimestamp());
+        return ((Long)sendDate).compareTo(e.getTimestamp());
     }
 }

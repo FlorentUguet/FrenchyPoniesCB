@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ChatActivity"
+            android:name=".views.PonyboxActivity"
             android:label="@string/title_activity_chat"
             android:windowSoftInputMode="adjustPan"
             android:theme="@style/AppTheme.NoActionBar">
@@ -25,7 +25,7 @@
         </activity>
 
         <service
-            android:name=".ponybox.PonyboxClient"
+            android:name=".services.PonyboxService"
             android:exported="false"/>
     </application>
 

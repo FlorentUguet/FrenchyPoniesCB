@@ -4,35 +4,56 @@ import android.util.Log;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Florent on 24/03/2017.
  */
 
 public class Channel {
-    String name;
-    String label;
-    boolean locked;
-    String description;
+    private String name;
+    private String label;
+    private boolean locked;
+    private String description;
 
-    String LOG_TAG = "Channel";
+    private String LOG_TAG = "Channel";
 
-    public Channel(String input)
-    {
+    private List<User> users = new ArrayList<>();
+    private List<Message> messages = new ArrayList<>();
+
+    private Ponybox ponybox;
+
+    private ChannelListener mListener = null;
+
+    public interface ChannelListener{
+        void onMessageListUpdated();
+        void onUserListUpdated();
+    }
+
+    public Channel(Ponybox parent, String input){
+        setParent(parent);
         try {
             loadMessage(new JSONObject(input));
         }catch(Exception e){
             Log.e(LOG_TAG,"Error loading channel : " + e.toString());
         }
-
     }
 
-    public Channel(JSONObject oJson)
-    {
+    public Channel(Ponybox parent, JSONObject oJson){
+        setParent(parent);
         loadMessage(oJson);
     }
 
-    public void loadMessage(JSONObject oJson)
-    {
+    public void setListener(ChannelListener listener){
+        this.mListener = listener;
+    }
+
+    public void setParent(Ponybox parent){
+        this.ponybox = parent;
+    }
+
+    public void loadMessage(JSONObject oJson){
        try {
            name = oJson.getString("name");
            label = oJson.getString("label");
@@ -43,12 +64,32 @@ public class Channel {
        }
     }
 
-    public String GetName()
+    public void sendMessage(String message, User to){
+        sendMessage(message, to.getUsername());
+    }
+
+    public void sendMessage(String message, String to){
+        ponybox.sendMessage(this.name, message, to);
+    }
+
+    public void setUsers(List<User> users){
+        this.users = users;
+    }
+
+    public void addMessage(Message m){
+        this.messages.add(m);
+    }
+
+    public void addMessages(List<Message> messages){
+        this.messages.addAll(messages);
+    }
+
+    public String getName()
     {
         return this.name;
     }
 
-    public String GetLabel()
+    public String getLabel()
     {
         return this.label;
     }

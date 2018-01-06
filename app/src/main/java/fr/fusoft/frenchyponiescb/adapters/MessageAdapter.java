@@ -17,7 +17,6 @@ import java.util.List;
 
 import fr.fusoft.frenchyponiescb.R;
 import fr.fusoft.frenchyponiescb.ponybox.Message;
-import fr.fusoft.frenchyponiescb.workers.URLImageParser;
 
 /**
  * Created by Florent on 25/03/2017.
@@ -75,7 +74,7 @@ public class MessageAdapter extends ArrayAdapter<Message> implements View.OnClic
         switch (v.getId())
         {
             case R.id.imageViewAvatar:
-                Snackbar.make(v, "User " + message.GetSender().GetUsername(), Snackbar.LENGTH_LONG).setAction("No action", null).show();
+                Snackbar.make(v, "User " + message.getSender().getUsername(), Snackbar.LENGTH_LONG).setAction("No action", null).show();
                 break;
         }
     }
@@ -113,27 +112,27 @@ public class MessageAdapter extends ArrayAdapter<Message> implements View.OnClic
         lastPosition = position;
 
         try {
-            message.GetSender().LoadAvatar(viewHolder.avatar,mContext);
+            message.getSender().loadAvatar(viewHolder.avatar,mContext);
         }catch(Exception e){
             Log.e(LOG_TAG,"Exception while loading thumbnail : " + e.getMessage());
         }
 
         /*
         URLImageParser p = new URLImageParser(viewHolder.txtMessage, mContext);
-        viewHolder.txtMessage.setText(Html.fromHtml(message.GetMessage(),p,null));
+        viewHolder.txtMessage.setText(Html.fromHtml(message.getMessage(),p,null));
         */
         viewHolder.txtMessage.setMovementMethod(LinkMovementMethod.getInstance());
-        viewHolder.txtMessage.setText(Html.fromHtml(message.GetMessage()));
+        viewHolder.txtMessage.setText(Html.fromHtml(message.getMessage()));
 
 
-        viewHolder.txtDate.setText(String.valueOf(message.GetSendDate()));
-        viewHolder.txtUserFrom.setText(message.GetSender().GetUsername());
-        viewHolder.txtUserFrom.setTextColor(Color.parseColor("#" + message.GetSender().GetColor()));
+        viewHolder.txtDate.setText(String.valueOf(message.getSendDate()));
+        viewHolder.txtUserFrom.setText(message.getSender().getUsername());
+        viewHolder.txtUserFrom.setTextColor(Color.parseColor("#" + message.getSender().getColor()));
 
         if(message.isPrivate()){
             convertView.setBackgroundColor(mContext.getResources().getColor(R.color.colorMessagePrivate));
-            viewHolder.txtUserTo.setText(message.GetRecipient().GetUsername());
-            viewHolder.txtUserTo.setTextColor(Color.parseColor("#" + message.GetRecipient().GetColor()));
+            viewHolder.txtUserTo.setText(message.getRecipient().getUsername());
+            viewHolder.txtUserTo.setTextColor(Color.parseColor("#" + message.getRecipient().getColor()));
             viewHolder.txtUserTo.setVisibility(View.VISIBLE);
 
         }else{
